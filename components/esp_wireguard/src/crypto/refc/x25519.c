@@ -201,6 +201,7 @@ static limb_t canon(fe x) {
 }
 
 // static const limb_t a24[1]={121665};
+static const uint32_t a24 = 121665;
 
 static void ladder_part1(fe xs[5]) {
     limb_t *x2 = xs[0], *z2=xs[1],*x3=xs[2],*z3=xs[3],*t1=xs[4];
@@ -215,7 +216,8 @@ static void ladder_part1(fe xs[5]) {
     sqr1(t1);       // t1 = AA
     sqr1(z2);       // z2 = BB
     sub(x2,t1,z2);  // x2 = E = AA-BB
-    // mul(z2,x2,a24,sizeof(a24)/sizeof(a24[0])); // z2 = E*a24
+    mul(z2,x2,a24,sizeof(a24)/sizeof(a24)); // z2 = E*a24 // Tejal : TODO Fix error: 'mul' reading 32 bytes from a region of size 4 [-Werror=stringop-overread]
+    // mul1()
     add(z2,z2,t1);  // z2 = E*a24 + AA
 }
 static void ladder_part2(fe xs[5], const fe x1) {
